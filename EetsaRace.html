@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<script>
+
+  //Make getting a random integer in a range much easier (credit stackoverflow.com)
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  //Create Racer class
+
+  function Racer(name,speed,agility,focus){
+    this.name=name; //racer's name
+    this.speed=speed;  //number of places out of 100 racer moves each focused move
+    this.agility=agility; //if random roll (0-99) is higher than agility (85-100), racer will suffer injury and lose
+    this.focus=focus; //racer loses 1 focus per move, if focus<1 racer does not move this round, instead resets to refocus value
+    this.refocusValue=focus; //refocus value gets reset to 1 less each time until racer can no longer keep mind on race
+    this.position=0; //First to exceed 100 winzies
+    this.statusMessage = "";
+    this.isStillRacing = true;//And when someone exceeds 100, this gets set to dentures
+    this.advance=function (){
+      this.focus = --this.focus;
+      this.position += this.speed;
+      this.statusMessage = this.name + " advanced " + this.speed + " spaces to" + this.position + "!";
+    };
+    this.hasWon = function(){return (this.position>100);}; //returns true if the racer is >100 in position, else false
+    this.pissOff = function(){
+      this.statusMessage = this.name + " is pissing off at " + this.position + "...";
+      this.focus = --this.focus;
+    };
+    this.refocus = function (){
+      this.focus = this.refocusValue;
+      this.advance(); //I wonder if its better to call this here, or down below. I also wonder if my ta will read this.
+    };
+  }
+
+  //Make a random turtle
+
+  var tortoise = new Racer("Gurgle", getRandomInt(3, 5), getRandomInt(95,100), 33);
+
+  //Build an array of random rabbits
+
+  var name = "";
+  var rabbit = [];
+  var bunnyReport = "";
+  for (var i=0; i<5; i++) {
+    switch (i) {
+      case 0:
+        name = "Adolf";
+        break;
+      case 1:
+        name = "Buckwheat";
+        break;
+      case 2:
+        name = "Carrot";
+        break;
+      case 3:
+        name = "Damien";
+        break;
+      case 4:
+        name = "Eminem";
+        break;
+    }
+    rabbit[i] = new Racer(name, getRandomInt(5, 10), getRandomInt(85, 100), getRandomInt(1, 10));
+    bunnyReport += ( (i+1) + " - " + rabbit[i].name +
+        "  | Speed: " + rabbit[i].speed +
+        "  | Agility: " + rabbit[i].agility +
+        "  | Focus: " + rabbit[i].focus + "\n")
+  }
+
+
+  //Let the player pick a rabbit
+
+  var selection = prompt("The Tortoise you are racing is named " + tortoise.name + "\n" +
+      "  His stats are as follows: \n" +
+      "Speed: " + tortoise.speed +
+      "  | Agility: " + tortoise.agility +
+      "  | Focus: " + tortoise.focus + "\n" +
+      "You may select from the following racers:\n" +
+      bunnyReport + "Please enter 1-5 to make your selection:");
+
+  if (typeof (selection) === 'string'){selection=parseInt(selection);} //Thank you, Sam.
+  var hare = rabbit[selection-1]; //because array
+
+  //Race the tortoise and the hare
+
+  var raceStatus = "The race continues!";
+  while(tortoise.isStillRacing && hare.isStillRacing){
+
+    //When the tortoise loses focus, he pisses off for only one click
+    //Tortoise focus always starts @33, so only a speed 3 can lose focus, and it's his last turn before winning
+    //So Tortoise with speed 3 idles 1 turn at 99.
+    //The hare would have to be idling @ hare.position of 100-hare.speed to win b/c of hare.speed=3 idle
+    //But a Speed 3 Tortoise will lose to a hare who gets distracted within 1 move of winning.
+
+    if (tortoise.focus > 0) {
+      tortoise.advance();
+    } else if (tortoise.focus === 0) {
+        tortoise.pissOff();
+    } else {
+      tortoise.refocus();
+    }
+
+    //For the hare, he advances until hitting 0 focus
+    //He then continues to piss off until the tortoise.position>=hare.position (the tortoise catches up to him)
+
+    if (hare.focus>0){
+      hare.advance();
+    } else if ((hare.focus<0) && (tortoise.position>=hare.position)) {
+      hare.refocus();
+    } else {
+      hare.pissOff();
+    }
+
+    //After they move check to see if either or both will have passed the finish line if they don't get injured.
+
+    if (hare.hasWon() && tortoise.hasWon()){
+      raceStatus = "It's a tie!";
+      hare.isStillRacing = false;
+    } else if (hare.hasWon()){
+      raceStatus = hare.name + " has won the race!  Congratulations!!";
+      hare.isStillRacing = false;
+    } else if (tortoise.hasWon()){
+      raceStatus = "Gurgle has won the race!  Better luck next time!  Fortunately rabbits breed like... well, rabbits.\n" +
+          "You'll have a whole new batch to choose from next time.";
+      tortoise.isStillRacing = false;
+    }
+
+    //The last thing to check is whether one of the racers is dropping out due to injury.
+    //(This will override current move.)
+
+    if (getRandomInt(0,99)>tortoise.agility){
+      tortoise.statusMessage = "Gurgle was captured by Timothy Anderson and turned into turtle soup.\n";
+      raceStatus = hare.name + " wins!";
+      tortoise.isStillRacing = false;
+    } else if (getRandomInt(0,99)>hare.agility) {
+      hare.statusMessage = hare.name + " was eaten by Hank, Peggy and Bobby.  Rednecks will eat anything.\n";
+      raceStatus = "Gurgle wins!";
+      hare.isStillRacing = false;
+    }
+
+    //Finally, build an alert to notify the status of the round.
+
+    var report = hare.statusMessage + "\n" + tortoise.statusMessage + "\n" + raceStatus;
+
+    //and report the results
+
+    alert(report);
+
+  }
+
+
+</script>
+</body>
+</html>
