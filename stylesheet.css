@@ -1,0 +1,57 @@
+
+h1 {
+  font-size: 1.5em;
+  padding-left: 5px;
+}
+h2 {
+  font-size: 1.25em;
+  padding-left: 5px;
+}
+
+li {
+  font-size: 1em;
+  margin: 10px;
+}
+
+div {
+  border: 2px solid white;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  display: inline-block;
+}
+
+header {
+  background-color: #4ac3ff;
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+}
+#turtleBox {
+  background-color: #39b948;
+  margin-left: auto;
+  margin-right: auto;
+  width: 960px;
+  display: block;
+}
+
+
+#turtle{
+  width: 360px;
+  padding: 10px;
+}
+
+.bunnyBox {
+  background-color: #23c2ff;
+  width: 18%;
+  height: 50%;
+  display: inline-block;
+}
+
+.wabbit{
+  height: 20%;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
