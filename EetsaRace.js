@@ -45,7 +45,8 @@ function Racer(name,speed,agility,focus){
   };
 }
 
-$(function(){                               //***** BEGIN READY FUNCTION ******
+$(document).ready(function(){               //***** BEGIN READY FUNCTION ******
+
 
   //***********
   //-Variables-
@@ -54,6 +55,7 @@ $(function(){                               //***** BEGIN READY FUNCTION ******
   var name = "";                            //racer names will be various
   var rabbit = [];                          //there will be a bunch of rabbits, of course
   var tortoise;                             //there will eventually be a tortoise
+  var hare;
   var vpHeight = $(window).height();        //viewport height
   var vpWidth = $(window).width();          //viewport width
 
@@ -101,9 +103,11 @@ $(function(){                               //***** BEGIN READY FUNCTION ******
 
 
 
+  $('.wabbit').click(function(event){
+    hare = event.target.id;
 
-
-
+    $("#menu").hide();
+  })
 
 });                                         //***** END OF READY FUNCTION *****
 
