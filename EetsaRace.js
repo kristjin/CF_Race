@@ -61,6 +61,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
 
   var startingPoint = (vpWidth *.05);       //Race Starting X
   var finishLine = (vpWidth *.95);          //Race Finish Line X
+  var picLetter = ['A','B','C','D','E'];    //Because my pics were named this way
 
   //**
   //-Build Racers-
@@ -91,9 +92,12 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
         getRandomInt(4, 7)                  //focus - # of turns before loses focus and waits until tortoise catches up
     );
 
-    $("#" + i + 'Speed').html('Speed: ' + rabbit[i].speed);
-    $("#" + i + 'Focus').html('Focus: ' + rabbit[i].focus);
-    $("#" + i + 'Agility').html('Agility: ' + rabbit[i].agility);
+    $("#" + i + 'Speed').html('Speed: '
+        + rabbit[i].speed);                 //Update this rabbit's speed on the menu
+    $("#" + i + 'Focus').html('Focus: '
+        + rabbit[i].focus);                 //Update this rabbit's focus on the menu
+    $("#" + i + 'Agility').html('Agility: '
+        + rabbit[i].agility);               //Update this rabbit's agility on the menu
 
   }
 
@@ -105,23 +109,49 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
   );
 
 
-  $('#tSpeed').html('Speed: ' + tortoise.speed);
-  $('#tFocus').html('Focus: ' + tortoise.focus);
-  $('#tAgility').html('Agility: ' + tortoise.agility);
+  $('#tSpeed').html('Speed: '
+      + tortoise.speed);                    //Update tortoise speed on the menu
+  $('#tFocus').html('Focus: '
+      + tortoise.focus);                    //Update tortoise focus on the menu
+  $('#tAgility').html('Agility: '
+      + tortoise.agility);                  //Update tortoise agility on the menu
 
 
   //**
-  //-The Game-
+  //-The Menu-
   //**
 
+  $('.bunnyBox')
+      .mouseenter(function(event){              //Whenever we put the mouse into a bunnybox div
+        var moused = event.target.id;           //Gives the id of the div into which we've moused (conveniently 0-4)
+        if (picLetter[moused] !== undefined){   //Sometimes I get an undefined value here, so whatever
+          var pic = 'img/hare'
+              + picLetter[moused] + '.png';     //build image src
+          $('#' + moused + '>img')
+              .attr('src', pic);                //apply image src
+        }
+      })     //Wake up Bunny!
+      .mouseleave(function(event) {             //Whenever we move the mouse out of a bunnybox
+        var moused = event.target.id;           //Gives the id of the div out of which we've moused (conveniently 0-4)
+        if (picLetter[moused] !== undefined) {  //Sometimes I get an undefined value here, so whatever
+          var pic = 'img/hare'
+              + picLetter[moused] + 'Zzz.png';  //build image src
+          $('#' + moused + '>img')
+              .attr('src', pic);                //apply image src
+        }
+      });   //Sleepy time Bunny!
+
+  $('.wabbit')
+      .click(function(event){
+        hare = event.target.id;
+        $("#menu").hide();
+      });
 
 
 
-  $('.wabbit').click(function(event){
-    hare = event.target.id;
 
-    $("#menu").hide();
-  })
+
+
                                             //*********************************
 });                                         //***** END OF READY FUNCTION *****
                                             //*********************************
