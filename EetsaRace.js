@@ -1,14 +1,14 @@
-//***********
+//**
 //-Functions-
-//***********
+//**
 
 function getRandomInt(min, max) {   //Makes getting a random integer in a range much easier (stackoverflow.com)
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//*************
+//**
 //-Constructor-
-//*************
+//**
 
 function Racer(name,speed,agility,focus){
 
@@ -44,13 +44,13 @@ function Racer(name,speed,agility,focus){
     this.advance();
   };
 }
-
+                                            //*********************************
 $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
+                                            //*********************************
 
-
-  //***********
+  //**
   //-Variables-
-  //***********
+  //**
 
   var name = "";                            //racer names will be various
   var rabbit = [];                          //there will be a bunch of rabbits, of course
@@ -62,7 +62,9 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
   var startingPoint = (vpWidth *.05);       //Race Starting X
   var finishLine = (vpWidth *.95);          //Race Finish Line X
 
-
+  //**
+  //-Build Racers-
+  //**
 
   for (var i=0; i<5; i++) {                 //builds an array of random rabbits
     switch (i) {                            //Selects the correct name for this rabbit
@@ -88,6 +90,11 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
         getRandomInt(95, 100),              //agility - for rabbits, 95-100, against 0-99 random roll
         getRandomInt(4, 7)                  //focus - # of turns before loses focus and waits until tortoise catches up
     );
+
+    $("#" + i + 'Speed').html('Speed: ' + rabbit[i].speed);
+    $("#" + i + 'Focus').html('Focus: ' + rabbit[i].focus);
+    $("#" + i + 'Agility').html('Agility: ' + rabbit[i].agility);
+
   }
 
   tortoise = new Racer (
@@ -97,9 +104,16 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       33                                    //focus - always 33, so only a speed 3 tortoise will wait, and only 1 turn
   );
 
-  //**********
+
+  $('#tSpeed').html('Speed: ' + tortoise.speed);
+  $('#tFocus').html('Focus: ' + tortoise.focus);
+  $('#tAgility').html('Agility: ' + tortoise.agility);
+
+
+  //**
   //-The Game-
-  //**********
+  //**
+
 
 
 
@@ -108,8 +122,12 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
 
     $("#menu").hide();
   })
-
+                                            //*********************************
 });                                         //***** END OF READY FUNCTION *****
+                                            //*********************************
+
+
+
 
 /*
  $('#path')
