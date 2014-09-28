@@ -56,11 +56,15 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
   var rabbit = [];                          //there will be a bunch of rabbits, of course
   var tortoise;                             //there will eventually be a tortoise
   var hare;
-  var vpHeight = $(window).height();        //viewport height
-  var vpWidth = $(window).width();          //viewport width
+  var vpHeight = $('#background>img')
+      .height();                            //viewport height
+  var vpWidth = $('#background>img')
+      .width();                             //viewport width
 
-  var startingPoint = (vpWidth *.05);       //Race Starting X
-  var finishLine = (vpWidth *.95);          //Race Finish Line X
+  var startingX = (vpWidth *.05);           //Race Starting X
+  var finishX = (vpWidth *.95);             //Race Finish Line X
+  var raceY =  (vpHeight *.60);             //Race Y
+
   var picLetter = ['A','B','C','D','E'];    //Because my pics were named this way
 
   //**
@@ -92,6 +96,21 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
         getRandomInt(4, 7)                  //focus - # of turns before loses focus and waits until tortoise catches up
     );
 
+    rabbit[i].pic =
+        "img/hare"
+        + picLetter[i]
+        + ".png";                           //location of this rabbit's awake pic
+
+    rabbit[i].sleepingPic =
+        "img/hare"
+        + picLetter[i]
+        + "Zzz.png";                        ///location of this rabbit's sleeping pic
+
+    rabbit[i].eatenPic =
+        "img/cooked"
+        +picLetter[i]
+        +".png";                            //location of this rabbit's eaten pic
+
     $("#" + i + 'Speed').html('Speed: '
         + rabbit[i].speed);                 //Update this rabbit's speed on the menu
     $("#" + i + 'Focus').html('Focus: '
@@ -99,7 +118,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
     $("#" + i + 'Agility').html('Agility: '
         + rabbit[i].agility);               //Update this rabbit's agility on the menu
 
-  }
+  }             //bunnies!
 
   tortoise = new Racer (
       "Gurgle",                             //name - one turtle, named Gurgle
@@ -107,6 +126,18 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       getRandomInt(85,100),                 //agility - less agile than rabbits, easier to catch and eat
       33                                    //focus - always 33, so only a speed 3 tortoise will wait, and only 1 turn
   );
+
+  tortoise.pic1 =
+      "img/turtle1.png";                    //location of turtle's awake pic 1
+
+  tortoise.pic2 =
+      "img/turtle2.png";                    //location of turtle's awake pic 2
+
+  tortoise.sleepingPic =
+      "img/turtleZzz.png";                  //location of turtle's sleeping pic
+
+  tortoise.eatenPic =
+      "img/cookedT.png";                    //location of turtle's eaten pic
 
 
   $('#tSpeed').html('Speed: '
@@ -125,26 +156,39 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       .mouseenter(function(event){              //Whenever we put the mouse into a bunnybox div
         var moused = event.target.id;           //Gives the id of the div into which we've moused (conveniently 0-4)
         if (picLetter[moused] !== undefined){   //Sometimes I get an undefined value here, so whatever
-          var pic = 'img/hare'
-              + picLetter[moused] + '.png';     //build image src
-          $('#' + moused + '>img')
-              .attr('src', pic);                //apply image src
+          $('#' + moused)
+              .attr('src',
+              rabbit[moused].pic);              //apply image src
         }
       })     //Wake up Bunny!
       .mouseleave(function(event) {             //Whenever we move the mouse out of a bunnybox
         var moused = event.target.id;           //Gives the id of the div out of which we've moused (conveniently 0-4)
         if (picLetter[moused] !== undefined) {  //Sometimes I get an undefined value here, so whatever
-          var pic = 'img/hare'
-              + picLetter[moused] + 'Zzz.png';  //build image src
-          $('#' + moused + '>img')
-              .attr('src', pic);                //apply image src
+          $('#' + moused)
+              .attr('src',
+              rabbit[moused].sleepingPic);      //apply image src
         }
       });   //Sleepy time Bunny!
 
-  $('.wabbit')
+
+  //**
+  //-The Game-
+  //**
+
+  $('.wabbit')                              //When we cwick on da wabbit, we pway.
       .click(function(event){
-        hare = event.target.id;
-        $("#menu").hide();
+        var picked = event.target.id;       //Tells us the rabbit we picked, 0-4
+        hare = rabbit[picked];              //Uses that number to select the right object
+
+        $("#menu")                          //Selects menu objects
+            .hide("slow");                  //Hides the menu objects
+
+        $('#game')                          //Selects the game objects
+            .delay(500)                     //Waits 1/2 second
+            .show("slow");                  //Show's the game objects
+
+
+
       });
 
 

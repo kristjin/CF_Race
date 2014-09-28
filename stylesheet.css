@@ -1,25 +1,10 @@
-h1 {
-  font-size: 1.5em;
-  padding-left: 5px;
-}
-h2 {
-  font-size: 1.25em;
-  padding-left: 5px;
-  margin: 5px;
-}
-
-li {
-  font-size: 1em;
-  margin: 10px;
-}
-
 div {
   border: 2px solid white;
   border-radius: 5px;
   margin-left: auto;
   margin-right: auto;
-
 }
+
 
 header {
   background-color: #4ac3ff;
@@ -28,15 +13,27 @@ header {
   width: 960px;
   display: block;
 }
-.turtleBox {
-  background-color: #39b948;
-  margin-left: auto;
-  margin-right: auto;
-  width: 960px;
-  display: block;
+
+
+h1 {
+  font-size: 1.5em;
 }
 
-#turtle{
+h2 {
+  font-size: 1.25em;
+}
+
+li {
+  font-size: 1em;
+}
+
+
+.turtleBox {
+  background-color: #39b948;
+  width: 960px;
+}
+
+#tortoise{
   width: 320px;
   padding: 5px;
   margin-right: 20px;
@@ -46,19 +43,27 @@ header {
 
 #bunnyBox{
   text-align: center;
-
 }
 
 .bunnyBox {
   background-color: #23c2ff;
-  width:180px;
-  margin: 10px auto;
+  width:160px;
+  margin: auto;
+  padding: 12px;
   vertical-align:top;
   display: inline-block;
 }
 
 .wabbit{
   width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  padding: 5px;
+}
+
+#game{
+  display:none;
+}
+
+#background>img{
+  width: 100%;
 }
