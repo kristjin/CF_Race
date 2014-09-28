@@ -14,12 +14,11 @@ li {
 }
 
 div {
-  border: 2px solid black;
+  border: 2px solid white;
   border-radius: 5px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
-  display: inline-block;
+
 }
 
 header {
@@ -38,17 +37,15 @@ header {
 }
 
 #turtle{
-  width: 360px;
-  padding: 10px;
+  width: 320px;
+  padding: 5px;
+  margin-right: 20px;
+  margin-top: 5px;
 }
 
+
 #bunnyBox{
-  width: 960px;
   text-align: center;
-  margin-left:auto;
-  margin-right: auto;
-  border: none;
-  display: block;
 
 }
 
@@ -56,7 +53,6 @@ header {
   background-color: #23c2ff;
   width:180px;
   margin: 10px auto;
-  padding: 0;
   vertical-align:top;
   display: inline-block;
 }
