@@ -53,6 +53,14 @@ function Racer(name,speed,agility,focus){
                                             //*********************************
 $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
                                             //*********************************
+  //**
+  //-Status Function-
+  //**
+
+  function updateStatus(message){
+    $('p').html(message).show().delay(1500).hide("slow");
+  }
+
 
   //**
   //-Game Function-
@@ -68,7 +76,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
     var i=0;                                //I will use this below.
     var raceStatus = "";
 
-    while(tortoise.isStillRacing && hare.isStillRacing){
+    var timerID = setInterval(function() {
 
       i++;                                  //iteration counter
 
@@ -92,6 +100,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       } else if (tortoise.focus === 0) {
         tortoise.pissOff();
         $('#tortoise').css('src', tortoise.sleepingPic);
+        updateStatus('Gurgle is not paying attention!');
       } else {
         tortoise.refocus();
         if (i % 2 == 0) {
@@ -117,6 +126,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       } else {
         hare.pissOff();
         $('#hare').attr('src', hare.sleepingPic);
+        updateStatus(hare.name + ' is not paying attention!');
       }
 
       //After they move check to see if either or both will have passed the finish line if they don't get injured.
@@ -124,33 +134,37 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
       if (hare.hasWon() && tortoise.hasWon()){
         raceStatus = "It's a tie!!";
         $('#finishLine').attr('src', 'img/finishedLine.png');
-        hare.isStillRacing = false;
+        updateStatus(raceStatus);
+        clearInterval(timerID);
       } else if (hare.hasWon()){
         $('#finishLine').attr('src', 'img/finishedLine.png');
         raceStatus = hare.name + " has won the race!  Congratulations!!";
-        hare.isStillRacing = false;
+        updateStatus(raceStatus);
+        clearInterval(timerID);
       } else if (tortoise.hasWon()){
         $('#finishLine').attr('src', 'img/finishedLine.png');
         raceStatus = "Gurgle has won the race!  Better luck next time!  Fortunately rabbits breed like... well, rabbits.\n" +
             "You'll have a whole new batch to choose from next time.";
-        tortoise.isStillRacing = false;
+        updateStatus(raceStatus);
+        clearInterval(timerID);
       }
 
       //The last thing to check is whether one of the racers is dropping out due to injury.
       //(This will override current move.)
 
       if (getRandomInt(0,99)>tortoise.agility){
-        raceStatus = "Gurgle was captured by Timothy Anderson and turned into turtle soup.\n"
-            + hare.name + " wins!";
+        raceStatus = "Gurgle was caught and turned into turtle soup.  " + hare.name + " wins!";
         $('#tortoise').attr('src', tortoise.eatenPic);
-        tortoise.isStillRacing = false;
+        updateStatus(raceStatus);
+        clearInterval(timerID);
       } else if (getRandomInt(0,99)>hare.agility) {
-        raceStatus = hare.name + " was eaten by Hank, Peggy and Bobby.  Rednecks will eat anything.\n Gurgle wins!";
+        raceStatus = hare.name + " was caught, turned into rabbit stew, and eaten! Gurgle wins!";
+        updateStatus(raceStatus);
         $('#hare').attr('src', hare.eatenPic);
-        hare.isStillRacing = false;
+        clearInterval(timerID);
       }
 
-    }
+    },800);
 
   }
 
@@ -222,7 +236,7 @@ $(document).ready(function(){               //***** BEGIN READY FUNCTION ******
   tortoise = new Racer (
       "Gurgle",                             //name - one turtle, named Gurgle
       getRandomInt(3, 5),                   //speed - 3-5 spaces per turn
-      getRandomInt(85,100),                 //agility - less agile than rabbits, easier to catch and eat
+      getRandomInt(92,100),                 //agility - less agile than rabbits, easier to catch and eat
       33                                    //focus - always 33, so only a speed 3 tortoise will wait, and only 1 turn
   );
 
